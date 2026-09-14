@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # AutoInsight
 
 An end-to-end automated data analysis application that analyzes a user-provided CSV dataset, automatically identifies data-quality issues, cleans the dataset, generates relevant visualizations, and extracts meaningful insights in simple English.
