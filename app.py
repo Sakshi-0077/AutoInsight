@@ -26,7 +26,6 @@ st.set_page_config(
 )
 
 st.title("AutoInsight")
-
 st.write(
     "Automated Data Cleaning, Visualization "
     "and Fact-Based Insights"
@@ -74,7 +73,6 @@ numerical, categorical = get_column_types(df)
 with st.expander("View Column Types"):
     st.write("**Numerical columns:**")
     st.write(numerical)
-
     st.write("**Categorical columns:**")
     st.write(categorical)
 
@@ -168,64 +166,33 @@ st.download_button(
     mime="text/csv",
 )
 
-# =========================
-# VISUALIZATIONS
-# =========================
-
 st.header("3. Visualizations")
 
 (
     continuous_numeric,
     bar_chart_columns,
     calendar_year_numeric,
-) = get_chartable_columns(
-    cleaned_df
-)
+) = get_chartable_columns(cleaned_df)
 
-
-visualization_options = [
-    "Select Visualization"
-]
-
+visualization_options = ["Select Visualization"]
 
 if continuous_numeric:
-    visualization_options.append(
-        "Histogram"
-    )
-
-    visualization_options.append(
-        "Boxplot"
-    )
-
+    visualization_options.append("Histogram")
+    visualization_options.append("Boxplot")
 
 if bar_chart_columns:
-    visualization_options.append(
-        "Bar Chart"
-    )
-
+    visualization_options.append("Bar Chart")
 
 if len(continuous_numeric) >= 2:
-    visualization_options.append(
-        "Scatter Plot"
-    )
-
-    visualization_options.append(
-        "Correlation Heatmap"
-    )
-
+    visualization_options.append("Scatter Plot")
+    visualization_options.append("Correlation Heatmap")
 
 selected_visualization = st.selectbox(
     "Choose a visualization",
     visualization_options,
 )
 
-
-# =========================
-# HISTOGRAM
-# =========================
-
 if selected_visualization == "Histogram":
-
     column = st.selectbox(
         "Select numerical column",
         continuous_numeric,
@@ -241,13 +208,7 @@ if selected_visualization == "Histogram":
         use_container_width=True
     )
 
-
-# =========================
-# BOXPLOT
-# =========================
-
 elif selected_visualization == "Boxplot":
-
     column = st.selectbox(
         "Select numerical column",
         continuous_numeric,
@@ -263,13 +224,7 @@ elif selected_visualization == "Boxplot":
         use_container_width=True
     )
 
-
-# =========================
-# BAR CHART
-# =========================
-
 elif selected_visualization == "Bar Chart":
-
     column = st.selectbox(
         "Select categorical column",
         bar_chart_columns,
@@ -285,24 +240,16 @@ elif selected_visualization == "Bar Chart":
         use_container_width=True
     )
 
-
-# =========================
-# SCATTER PLOT
-# =========================
-
 elif selected_visualization == "Scatter Plot":
-
     col1, col2 = st.columns(2)
 
     with col1:
-
         x_column = st.selectbox(
             "Select X-axis",
             continuous_numeric,
         )
 
     with col2:
-
         y_options = [
             column
             for column in continuous_numeric
@@ -325,39 +272,23 @@ elif selected_visualization == "Scatter Plot":
         use_container_width=True
     )
 
-
-# =========================
-# CORRELATION HEATMAP
-# =========================
-
 elif selected_visualization == "Correlation Heatmap":
-
-    fig = create_heatmap(
-        cleaned_df
-    )
+    fig = create_heatmap(cleaned_df)
 
     if fig is not None:
-
         st.pyplot(
             fig,
             use_container_width=True
         )
-
     else:
-
         st.warning(
             "At least two numerical columns "
             "are required."
         )
-# =========================
-# INSIGHTS
-# =========================
 
 st.header("4. Insights")
 
-final_outliers = get_outliers(
-    cleaned_df
-)
+final_outliers = get_outliers(cleaned_df)
 
 insights = generate_insights(
     cleaned_df,
@@ -365,15 +296,11 @@ insights = generate_insights(
     outlier_counts=final_outliers,
 )
 
-st.write(
-    insights
-)
+st.write(insights)
 
 st.download_button(
     label="Download Insights (TXT)",
-    data=build_insights_text(
-        insights
-    ),
+    data=build_insights_text(insights),
     file_name="autoinsight_report.txt",
     mime="text/plain",
 )
